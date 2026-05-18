@@ -25,7 +25,20 @@ class ProductController extends Controller
         $request->validate([
             'name' => 'required',
             'price' => 'required|numeric',
-            'stock' => 'required|integer'
+            'stock' => 'required|integer',
+            'color' => 'nullable|string',
+            'sku' => 'required|string|unique:products,sku'
+        ],
+        [
+            'name.required' => 'Product name is required',
+            'price.required' => 'Product price is required',
+            'price.numeric' => 'Product price must be a number',
+            'stock.required' => 'Product stock is required',
+            'stock.integer' => 'Product stock must be an integer',
+            'color.string' => 'Product color must be a string',
+            'sku.required' => 'Product SKU is required',
+            'sku.string' => 'Product SKU must be a string',
+            'sku.unique' => 'Product SKU must be unique'
         ]);
 
         // Create product
@@ -33,7 +46,9 @@ class ProductController extends Controller
             'name' => $request->name,
             'description' => $request->description,
             'price' => $request->price,
-            'stock' => $request->stock
+            'stock' => $request->stock,
+            'color' => $request->color,
+            'sku' => $request->sku
         ]);
 
         return response()->json([
